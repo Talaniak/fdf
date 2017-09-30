@@ -6,7 +6,7 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 22:19:09 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/30 06:23:59 by maviot           ###   ########.fr       */
+/*   Updated: 2017/09/30 09:10:55 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void line(t_env *e, int x0, int y0, int x1, int y1)
 
 	while (x0 != x1 && y0 != y1)
 	{
-		mlx_pixel_put(e->mlx, e->win, x0, y0, 0xffffff);
+//		mlx_pixel_put(e->mlx, e->win, x0, y0, 0xffffff);
+		mlx_pixel_put(e->mlx, e->win, (x0 - y0), ((y0 + x0) / 2), 0xffffff);
 		l->e2 = l->err;
 		if (l->e2 >- l->dx)
 		{
@@ -40,16 +41,6 @@ void line(t_env *e, int x0, int y0, int x1, int y1)
 	}
 }
 
-void		set_y(t_env *e)
-{
-	e->lya = (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))) + e->zoom;
-}
-
-void		set_x(t_env *e)
-{
-	e->lxa = (e->x - e->y) + e->zoom;
-}
-
 void		draw_top_down(t_env *e)
 {
 	e->y = 400;
@@ -57,17 +48,29 @@ void		draw_top_down(t_env *e)
 	while (e->max_y < e->map_y)
 	{
 		e->max_x = 0;
-		e->x = 800;
+		e->x = 600;
 		while (e->max_x < e->map_x)
 		{
 			e->z = e->data_map[e->max_y][e->max_x];
-			set_x(e); //lines
-			set_y(e); //lines
-//			mlx_pixel_put(e->mlx, e->win, e->x, e->y, 0xffffff);
-//			mlx_pixel_put(e->mlx, e->win, (e->x - e->y), (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))), 0xffffff);
-			mlx_pixel_put(e->mlx, e->win, e->x, e->y, 0xffffff);
-			line(e, (e->x - e->y), (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))), e->lxa, e->lya);	
-//			printf("x = %d, y = %d, x0 = %d, y0 = %d\n", (e->x - e->y), (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))), e->lxa, e->lya);
+			if (e->z > 0)
+			{
+				if (e->max_x != e->map_x)
+				{
+					line(e, (e->x - e->z * e->l_r), (e->y - e->z * e->l_r), ((e->x + e->zoom * 2) - e->z * e->l_r), ((e->y + 1) - (e->z * e->l_r)));	
+					line(e, (e->x - e->z * e->l_r), (e->y - e->z * e->l_r), e->x, e->y);
+				}
+				if (e->max_y != e->map_y)
+				{
+					line(e, (e->x - e->z * e->l_r), (e->y - e->z * e->l_r), ((e->x + 1) - e->z * e->l_r), ((e->y + (e->zoom * 2)) - (e->z * e->l_r)));
+				}
+			}
+			else
+			{	
+				if (e->max_x != (e->map_x - 1))
+					line(e, e->x, e->y, (e->x + e->zoom * 2), (e->y + 1));	
+				if (e->max_y != (e->map_y - 1))
+					line(e, e->x, e->y, (e->x + 1), (e->y + (e->zoom * 2)));
+			}
 			e->max_x++;
 			e->x += e->zoom;
 		}
