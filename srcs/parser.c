@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_param.c                                        :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 23:23:02 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/25 14:34:31 by maviot           ###   ########.fr       */
+/*   Updated: 2017/09/29 06:46:34 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,75 +37,84 @@ static int		ft_count_words(char const *str, char c)
 	return (words);
 }
 
-void			get_z(t_param *param, char **av)
+void			get_z(t_env *e, char **av)
 {
 	int			fd;
-	char		*str;
+	char		*s;
 	char		**char_map;
 	int			i;
 	int			j;
 
+	i = 0;
+	e->data_map = (int **)malloc(sizeof(int *) * e->map_y);
+	while (i < e->map_y)
+		e->data_map[i++] = (int *)malloc(sizeof(int) * e->map_x);
+
 	char_map = NULL;
 	fd = open(av[1], O_RDONLY);
 	i = 0;
-	while (get_next_line(fd, &str) == 1)
+	while (get_next_line(fd, &s) == 1)
 	{
-		char_map = ft_strsplit(str, ' ');
+		char_map = ft_strsplit(s, ' ');
 		j = 0;
-		while (j < ft_count_words(str, ' '))
+		while (j < ft_count_words(s, ' '))
 		{
-			param->data_map[i][j] = atoi(char_map[j]);
-			printf("%d ", param->data_map[i][j]);
+			e->data_map[i][j] = atoi(char_map[j]);
 			j++;
 		}
-		printf("\n");
 		i++;
 	}
 }
 
-int				get_x(char *str)
+int				get_x(char *s)
 {
 	int			i;
 	int			x;
 
 	i = 0;
 	x = 0;
-	while (str[i])
+	while (s[i])
 	{
-		if (str[i] == ' ')
+		if (s[i] == ' ')
 			i++;
 		else
 		{
 			x++;
-			while (str[i] != ' ' && str[i] != '\0')
+			while (s[i] != ' ' && s[i] != '\0')
 				i++;
 		}
 	}
 	return (x);
 }
 
-void			get_x_y(t_param *param, char **av)
+void			get_x_y(t_env *e, char **av)
 {
 	int			fd;
-	char		*str;
+	char		*s;
 	int			i;
 	int			j;
 
 	fd = open(av[1], O_RDONLY);
 	i = 0;
-	param->map_x = 0;
-	while (get_next_line(fd, &str) == 1)
+	while (get_next_line(fd, &s) == 1)
 	{
 		j = 0;
-		while (str[j])
+		while (s[j])
 		{
-			if ((str[j] < 48 || str[j] > 57) && (str[j] != 32 && str[j] != '-'))
+			if ((s[j] < 48 || s[j] > 57) && (s[j] != 32 && s[j] != '-'))
 				map_err();
 			j++;
 		}
 		i++;
-		if (param->map_x == 0)
-			param->map_x = get_x(str);
+		if (e->map_x == 0)
+			e->map_x = get_x(s);
 	}
-	param->map_y = i;
+	e->map_y = i;
+}
+
+void			parser(t_env *e, char **av)
+{
+	get_x_y(e, av);
+	get_z(e, av);
+	set_zoom(e);
 }

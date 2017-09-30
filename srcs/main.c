@@ -6,155 +6,104 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 22:19:09 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/28 06:10:35 by maviot           ###   ########.fr       */
+/*   Updated: 2017/09/30 06:23:59 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void line(t_param *param, int x0, int y0, int x1, int y1)
+void line(t_env *e, int x0, int y0, int x1, int y1)
 {
-	int dx;
-	int	sx;
-	int dy;
-	int	sy;
-	int err;
-	int e2;
-	
-	dx = abs(x1 - x0);
-	sx = x0 < x1 ? 1 : -1;
-	dy = abs(y1 - y0);
-	sy = y0 < y1 ? 1 : -1; 
-	err = (dx>dy ? dx : -dy) / 2;
+	t_line *l;
+
+	l = ft_memalloc(sizeof(t_line));	
+	l->dx = abs(x1 - x0);
+	l->sx = x0 < x1 ? 1 : -1;
+	l->dy = abs(y1 - y0);
+	l->sy = y0 < y1 ? 1 : -1; 
+	l->err = (l->dx > l->dy ? l->dx : -l->dy) / 2;
 
 	while (x0 != x1 && y0 != y1)
 	{
-		mlx_pixel_put(param->mlx, param->win, x0, y0, 0x55ff0000);
-		e2 = err;
-		if (e2 >-dx)
+		mlx_pixel_put(e->mlx, e->win, x0, y0, 0xffffff);
+		l->e2 = l->err;
+		if (l->e2 >- l->dx)
 		{
-			err -= dy;
-			x0 += sx;
+			l->err -= l->dy;
+			x0 += l->sx;
 		}
-		if (e2 < dy)
+		if (l->e2 < l->dy)
 		{
-			err += dx;
-			y0 += sy;
+			l->err += l->dx;
+			y0 += l->sy;
 		}
 	}
 }
 
-void		draw_top_down(t_param *param)
+void		set_y(t_env *e)
 {
-	int		x;
-	int		y;
-	int		z;
-	int		max_x;
-	int		max_y;
-	int		dist;
-
-	int		xx;
-	int		yx;
-	//line 2
-	int		xy;
-	int		yy;
-	//line 3
-	int		xz;
-	int		yz;
-
-	dist = param->map_x + param->map_y;
-	y = dist;
-	max_x = 0;
-	max_y = 0;
-	while (max_y < param->map_y)
-	{
-		x = dist * 20; //l_r
-		max_x = 0;
-		while (max_x < param->map_x)
-		{
-			z = param->data_map[max_y][max_x];
-			mlx_pixel_put(param->mlx, param->win, (x - y), (((x + y) / 2) - (z * 30)), 0xffffff);
-			// line 1
-			xx = (x - y) + dist;
-			yx = (((x + (y - 30)) / 2) - (z * 30)) + dist;
-			//line 2
-			xy = (x - y) + dist;
-			yy = (((x + (y - 90)) / 2) - (z * 30)) + dist;
-			//line 3
-			xz = (x - y) + dist;
-			yz = ((((x+param->u_d) + (y + param->l_r)) / 2) - (z * 30)) + dist;
-			line(param, (x - y), (((x + y) / 2) - (z * 30)), xx, yx);
-			line(param, (x - y), (((x + y) / 2) - (z * 30)), xy, yy);
-	//		printf("max_x = %d, max_y = %d\n", max_x, max_y);
-			printf("param[%d][%d] = %d\n", max_x, max_y, param->data_map[max_x][max_y]);
-			if (z > 0)
-			{
-				printf("in\n");
-				line(param, (x - y), (((x + y) / 2) - (z * 30)), xz, yz);	
-			}
-			x += dist;
-			max_x++;
-		}
-		y += dist;
-		max_y++;
-	}
+	e->lya = (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))) + e->zoom;
 }
 
-int			chk_exit(int keycode, t_param *param)
+void		set_x(t_env *e)
 {
-	param->curkey = keycode;
-	if (keycode == 53)
+	e->lxa = (e->x - e->y) + e->zoom;
+}
+
+void		draw_top_down(t_env *e)
+{
+	e->y = 400;
+	e->max_y = 0;
+	while (e->max_y < e->map_y)
 	{
-		write(1, "\n  Seeya !\n\n", 13);
-		mlx_destroy_window(param->mlx, param->win);
-		exit(0);
+		e->max_x = 0;
+		e->x = 800;
+		while (e->max_x < e->map_x)
+		{
+			e->z = e->data_map[e->max_y][e->max_x];
+			set_x(e); //lines
+			set_y(e); //lines
+//			mlx_pixel_put(e->mlx, e->win, e->x, e->y, 0xffffff);
+//			mlx_pixel_put(e->mlx, e->win, (e->x - e->y), (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))), 0xffffff);
+			mlx_pixel_put(e->mlx, e->win, e->x, e->y, 0xffffff);
+			line(e, (e->x - e->y), (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))), e->lxa, e->lya);	
+//			printf("x = %d, y = %d, x0 = %d, y0 = %d\n", (e->x - e->y), (((e->x + e->y) / 2) - (e->z * (e->u_d * 2))), e->lxa, e->lya);
+			e->max_x++;
+			e->x += e->zoom;
+		}
+		e->max_y++;
+		e->y += e->zoom;
 	}
-	if (keycode == 123)
-	{
-		mlx_clear_window(param->mlx, param->win);	
-		param->l_r--;
-		draw_top_down(param);
-	}
-	if (keycode == 124)
-	{
-		mlx_clear_window(param->mlx, param->win);	
-		param->l_r++;
-		draw_top_down(param);
-	}
-	if (keycode == 125)
-	{
-		mlx_clear_window(param->mlx, param->win);	
-		param->u_d = param->u_d + 50;
-		draw_top_down(param);
-	}
-	if (keycode == 126)
-	{
-		mlx_clear_window(param->mlx, param->win);	
-		param->u_d = param->u_d - 50;
-		draw_top_down(param);
-	}
-	return (0);
 }
 
 int			main(int ac, char **av)
 {
-	t_param	*param;
+	t_env	*e;
 
 	if (ac != 2)
-	{
 		my_exit(ac);
+	e = e_init();
+	e->mlx = mlx_init();
+	parser(e, av);
+	e->win = mlx_new_window(e->mlx, 1280, 1280, av[1]);
+	draw_top_down(e);
+	printf("map_x = %d, map_y = %d\n", e->map_x, e->map_y);
+/*	
+	int a = 0;
+	int b = 0;
+	while (a < e->map_y)
+	{
+		b = 0;
+		while (b < e->map_x)
+		{
+			printf("%d ", e->data_map[a][b]);
+			b++;
+		}
+		printf("\n");
+		a++;
 	}
-	param = malloc(sizeof(t_param));
-	param->l_r = 2;
-	param->u_d = 700;
-	param->mlx = mlx_init();
-	get_x_y(param, av);
-	get_z(param, av);
-	param->win = mlx_new_window(param->mlx,
-			param->map_x * 80, param->map_y * 80, "myWindow");
-	draw_top_down(param);
-	printf("x = %d, y = %d\n", param->map_x, param->map_y);
-	mlx_hook(param->win, 2, 3, &chk_exit, param);
-	mlx_loop(param->mlx);
+*/
+	mlx_hook(e->win, 2, 3, &check_input, e);
+	mlx_loop(e->mlx);
 	return (0);
 }

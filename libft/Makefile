@@ -6,7 +6,7 @@
 #    By: maviot <maviot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/29 23:58:30 by maviot            #+#    #+#              #
-#    Updated: 2017/09/25 12:55:07 by maviot           ###   ########.fr        #
+#    Updated: 2017/09/29 09:42:15 by maviot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $($(SRCS))
 	gcc $(FLAGS) -c $(SRCS)
 	ar rc $(NAME) $(OBJS)
 	ranlib $(NAME)
