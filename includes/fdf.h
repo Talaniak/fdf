@@ -10,9 +10,8 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
-#define MAX_X 800
-#define MAX_Y 600
-#define DIST (MAX_X / 15)
+#define XS 800
+#define YS 600
 
 typedef struct		s_env
 {
@@ -27,10 +26,8 @@ typedef struct		s_env
 	int				x;
 	int				y;
 	int				z;
-	int				lxa;
-	int				lxb;
-	int				lya;
-	int				lyb;
+	int				x_pix;
+	int				y_pix;
 	int				**data_map;
 	int				l_r;
 	int				u_d;

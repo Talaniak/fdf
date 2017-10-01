@@ -25,10 +25,8 @@ t_env		*e_init()
 	e->x = 0;
 	e->y = 0;
 	e->z = 0;
-	e->lxa = 0;
-	e->lxb = 0;
-	e->lya = 0;
-	e->lyb = 0;
+	e->x_pix = 0;
+	e->y_pix = 0;
 	e->l_r = 10;
 	e->u_d = 10;
 	return(e);
