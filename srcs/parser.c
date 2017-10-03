@@ -6,7 +6,7 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 23:23:02 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/29 06:46:34 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/03 14:10:20 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void			get_z(t_env *e, char **av)
 	e->data_map = (int **)malloc(sizeof(int *) * e->map_y);
 	while (i < e->map_y)
 		e->data_map[i++] = (int *)malloc(sizeof(int) * e->map_x);
-
 	char_map = NULL;
 	fd = open(av[1], O_RDONLY);
 	i = 0;

@@ -6,7 +6,7 @@
 #    By: maviot <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/22 23:03:07 by maviot            #+#    #+#              #
-#    Updated: 2017/09/30 07:08:48 by maviot           ###   ########.fr        #
+#    Updated: 2017/10/03 14:04:41 by maviot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ SRCS =	main.c \
 		parser.c \
 		exit_cases.c \
 		inputs.c \
+		draw.c \
+		bresenham.c \
 
 OBJS = $(SRCS:.c=.o)
 

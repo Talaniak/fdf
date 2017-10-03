@@ -6,7 +6,7 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/29 04:11:24 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/29 08:27:52 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/03 08:06:08 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ void		l_r(t_env *e)
 {
 	if (e->curkey == 123)
 	{
-		mlx_clear_window(e->mlx, e->win);
+//		mlx_clear_window(e->mlx, e->win);
 		e->l_r--;
-		draw_top_down(e);
+//		draw_top_down(e);
 	}
 	if (e->curkey == 124)
 	{
-		mlx_clear_window(e->mlx, e->win);
+//		mlx_clear_window(e->mlx, e->win);
 		e->l_r++;
-		draw_top_down(e);
+//		draw_top_down(e);
 	}
 }
 
@@ -39,15 +39,15 @@ void		u_d(t_env *e)
 {
 	if (e->curkey == 125)
 	{
-		mlx_clear_window(e->mlx, e->win);
+	//	mlx_clear_window(e->mlx, e->win);
 		e->u_d--;
-		draw_top_down(e);
+	//	draw_top_down(e);
 	}
 	if (e->curkey == 126)
 	{
-		mlx_clear_window(e->mlx, e->win);
+	//	mlx_clear_window(e->mlx, e->win);
 		e->u_d++;
-		draw_top_down(e);
+	//	draw_top_down(e);
 	}	
 }
 

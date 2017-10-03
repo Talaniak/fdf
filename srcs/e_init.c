@@ -6,13 +6,13 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/29 02:04:14 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/29 07:45:13 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/03 14:15:22 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-t_env		*e_init()
+t_env		*e_init(void)
 {
 	t_env *e;
 
@@ -29,7 +29,27 @@ t_env		*e_init()
 	e->y_pix = 0;
 	e->l_r = 10;
 	e->u_d = 10;
-	return(e);
+	return (e);
+}
+
+t_line		*l_init(void)
+{
+	t_line *l;
+
+	l = ft_memalloc(sizeof(t_line));
+	l->xi = 0;
+	l->yi = 0;
+	l->xf = 0;
+	l->yf = 0;
+	l->dx = 0;
+	l->dy = 0;
+	l->i = 0;
+	l->xinc = 0;
+	l->yinc = 0;
+	l->cumul = 0;
+	l->x = 0;
+	l->y = 0;
+	return (l);
 }
 
 void		set_zoom(t_env *e)

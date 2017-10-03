@@ -10,8 +10,8 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
-#define XS 800
-#define YS 600
+#define XS 1000
+#define YS 400
 
 typedef struct		s_env
 {
@@ -35,12 +35,18 @@ typedef struct		s_env
 
 typedef struct		s_line
 {
+	int				xi;
+	int				yi;
+	int				xf;
+	int				yf;
 	int				dx;
-	int				sx;
 	int				dy;
-	int				sy;
-	int				err;
-	int				e2;
+	int				i;
+	int				xinc;
+	int				yinc;
+	int				cumul;
+	int				x;
+	int				y;
 }					t_line;
 
 
@@ -64,7 +70,8 @@ void	map_err(void);
  * * e_init.c
  */
 
-t_env	*e_init();
+t_env	*e_init(void);
+t_line	*l_init(void);
 void	set_zoom(t_env *e);
 
 /*
@@ -74,9 +81,20 @@ void	set_zoom(t_env *e);
 int		check_input(int keycode, t_env *e);
 
 /*
- * * main.c
+ * * draw.c
  */
 
-void	draw_top_down(t_env *e);
+void	draw(t_env *e);
+void	line_r(t_env *e, int x, int y);
+void	line_d(t_env *e, int x, int y);
+void	data_to_pix(t_env *e, int x, int y);
+
+/*
+ * * bresenham.c
+ */
+
+void ligne(t_env *e, t_line *l, int xf, int yf);
+void ligne_un(t_env *e, t_line *l);
+void ligne_deux(t_env *e, t_line *l);
 
 #endif
