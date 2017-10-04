@@ -6,11 +6,11 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/25 12:44:32 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/25 12:46:18 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/04 02:50:15 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int		ft_count_words(char const *str, char c)
+int		ft_count_words(char const *str, char c)
 {
 	int			i;
 	int			words;

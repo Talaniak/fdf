@@ -6,36 +6,11 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 23:23:02 by maviot            #+#    #+#             */
-/*   Updated: 2017/10/03 14:10:20 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/04 02:49:44 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-static int		ft_count_words(char const *str, char c)
-{
-	int			i;
-	int			words;
-	int			flag;
-
-	if (!str)
-		return (0);
-	i = 0;
-	words = 0;
-	flag = 0;
-	while (str[i] != '\0')
-	{
-		if (flag == 0 && str[i] != c)
-		{
-			flag = 1;
-			words++;
-		}
-		if (flag == 1 && str[i] == c)
-			flag = 0;
-		i++;
-	}
-	return (words);
-}
 
 void			get_z(t_env *e, char **av)
 {
@@ -46,11 +21,12 @@ void			get_z(t_env *e, char **av)
 	int			j;
 
 	i = 0;
-	e->data_map = (int **)malloc(sizeof(int *) * e->map_y);
+	e->data_map = (int **)ft_memalloc(sizeof(int *) * e->map_y);
 	while (i < e->map_y)
-		e->data_map[i++] = (int *)malloc(sizeof(int) * e->map_x);
+		e->data_map[i++] = (int *)ft_memalloc(sizeof(int) * e->map_x);
 	char_map = NULL;
-	fd = open(av[1], O_RDONLY);
+	if (!(fd = open(av[1], O_RDONLY)))
+		ft_error("error\n");
 	i = 0;
 	while (get_next_line(fd, &s) == 1)
 	{
@@ -93,7 +69,8 @@ void			get_x_y(t_env *e, char **av)
 	int			i;
 	int			j;
 
-	fd = open(av[1], O_RDONLY);
+	if (!(fd = open(av[1], O_RDONLY)))
+		ft_error("error\n");
 	i = 0;
 	while (get_next_line(fd, &s) == 1)
 	{

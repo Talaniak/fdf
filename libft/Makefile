@@ -6,7 +6,7 @@
 #    By: maviot <maviot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/29 23:58:30 by maviot            #+#    #+#              #
-#    Updated: 2017/09/29 09:42:15 by maviot           ###   ########.fr        #
+#    Updated: 2017/10/04 02:45:09 by maviot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,8 @@ SRCS = ft_atoi.c \
 	   ft_foreach.c \
 	   ft_count_occur.c \
 	   ft_count_if.c \
-	   get_next_line.c
+	   get_next_line.c \
+	   ft_count_words.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -85,15 +86,17 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $($(SRCS))
-	gcc $(FLAGS) -c $(SRCS)
-	ar rc $(NAME) $(OBJS)
-	ranlib $(NAME)
+$(NAME): $(OBJS)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+
+%.o: ./%.c
+	@gcc $(FLAGS) -c $< -I libft.h
 
 clean:
-	rm -rf $(OBJS)
+	@rm -rf $(OBJS)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all

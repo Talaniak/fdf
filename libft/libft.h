@@ -6,7 +6,7 @@
 /*   By: maviot <maviot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 10:39:03 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/25 12:55:22 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/04 02:50:34 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int					*ft_range(int min, int max);
 void				ft_foreach(int *tab, int length, void (*f)(int));
 size_t				ft_count_occur(char *str, char c);
 int					ft_count_if(char **tab, int (*f)(char*));
+int					ft_count_words(char const *str, char c);
 
 int					get_next_line(const int fd, char **line);
 

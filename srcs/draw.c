@@ -6,7 +6,7 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 09:13:28 by maviot            #+#    #+#             */
-/*   Updated: 2017/10/03 14:12:12 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/04 04:25:37 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void		data_to_pix(t_env *e, int x, int y)
 	z = e->data_map[y][x];
 	if (z > 0)
 	{
-		e->x_pix = (XS + x * e->zoom - (e->zoom * z));
-		e->y_pix = (YS + y * e->zoom - (e->zoom * z));
+		e->x_pix = (e->x_start + x * e->zoom - (e->zoom * z));
+		e->y_pix = (e->y_start + y * e->zoom - (e->zoom * z));
 	}
 	else
 	{
-		e->x_pix = XS + x * e->zoom;
-		e->y_pix = YS + y * e->zoom;
+		e->x_pix = e->x_start + x * e->zoom;
+		e->y_pix = e->y_start + y * e->zoom;
 	}
 }
 

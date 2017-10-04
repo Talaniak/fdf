@@ -6,7 +6,7 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/23 04:56:20 by maviot            #+#    #+#             */
-/*   Updated: 2017/09/23 05:15:56 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/04 01:39:58 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ void		my_exit(int ac)
 
 void		map_err(void)
 {
-	write(1, "map error, can only accept digits and spaces\n", 46);
+	write(2, "map error, can only accept digits and spaces\n", 46);
+	exit(0);
+}
+
+void		ft_error(char *str)
+{
+	ft_putstr_fd(str, 2);
 	exit(0);
 }

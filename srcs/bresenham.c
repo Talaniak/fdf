@@ -6,11 +6,19 @@
 /*   By: maviot <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 14:01:49 by maviot            #+#    #+#             */
-/*   Updated: 2017/10/03 14:07:17 by maviot           ###   ########.fr       */
+/*   Updated: 2017/10/04 05:35:38 by maviot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+int		ft_abs(int nb)
+{
+	if (nb < 0)
+		return (nb * -1);
+	else
+		return (nb);
+}
 
 void	ligne_deux(t_env *e, t_line *l)
 {
@@ -26,7 +34,7 @@ void	ligne_deux(t_env *e, t_line *l)
 			l->x += l->xinc;
 		}
 		mlx_pixel_put(e->mlx, e->win, (l->x - l->y),
-				((l->y + l->x) / 2), 0xffffff);
+				((l->y + l->x) / 2), e->colors[e->color]);
 		l->i++;
 	}
 }
@@ -45,7 +53,7 @@ void	ligne_un(t_env *e, t_line *l)
 			l->y += l->yinc;
 		}
 		mlx_pixel_put(e->mlx, e->win, (l->x - l->y),
-				((l->y + l->x) / 2), 0xffffff);
+				((l->y + l->x) / 2), e->colors[e->color]);
 		l->i++;
 	}
 }
@@ -58,8 +66,8 @@ void	ligne(t_env *e, t_line *l, int xf, int yf)
 	l->dy = yf - l->yi;
 	l->xinc = (l->dx > 0) ? 1 : -1;
 	l->yinc = (l->dy > 0) ? 1 : -1;
-	l->dx = abs(l->dx);
-	l->dy = abs(l->dy);
+	l->dx = ft_abs(l->dx);
+	l->dy = ft_abs(l->dy);
 	if (l->dx > l->dy)
 		ligne_un(e, l);
 	else

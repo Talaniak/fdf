@@ -6,7 +6,7 @@
 #    By: maviot <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/22 23:03:07 by maviot            #+#    #+#              #
-#    Updated: 2017/10/03 14:04:41 by maviot           ###   ########.fr        #
+#    Updated: 2017/10/04 04:26:07 by maviot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,12 @@ LMX = -framework OpenGL -framework Appkit
 
 all: $(NAME)
 
-$(NAME):
-	@gcc $(FLAGS) -c $(addprefix $(SRCPATH), $(SRCS)) \
-		-I includes/fdf.h
+$(NAME): $(OBJS)
 	@make -C libft
 	@gcc $(FLAGS) $(OBJS) $(LMX) libft/libft.a libft/libmlx.a -o $(NAME)
+
+%.o: $(SRCPATH)%.c
+	@gcc $(FLAGS) -c $< -I includes
 
 .PHONY: all clean fclean re
 
